@@ -8,6 +8,12 @@
 # $2 -> program to pipe grim output to, defaults to cat, is set to wl-copy if -clip is set
 # $3 -> seconds to wait before taking screenshot
 
+CURRENT_DIR="$PWD"
+
+SAVE_DIR="$HOME/Pictures/Screenshots/"
+
+! [ -d "$SAVE_DIR" ] && mkdir -p "$SAVE_DIR"
+
 ss_all() {
     sleep "$3"
     grim "$1" | "$2" 
@@ -74,4 +80,8 @@ do
 
 done 
 
+cd "$SAVE_DIR"
+
 $CMD "$FN" "$PIPE_CMD" "$SECS"
+
+cd "$CURRENT_DIR"
