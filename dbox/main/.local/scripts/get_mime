@@ -1,0 +1,25 @@
+#!/bin/sh
+
+ext_to_mime() {
+    FN="$1"
+    EXT="$(echo "$FN" | sed 's/^.*\.//g')"
+    case "$EXT" in 
+        zip) echo "application/zip";;
+        7z) echo "application/x-7z-compressed";;
+        rar) echo "application/*rar";;
+        tar.gz) echo "application/gzip";;
+        pdf) echo "application/pdf";;
+        *) ;;
+    esac
+}
+
+FN="$@"
+
+mime="$(file --mime-type "$FN" -b)"
+
+if [ "$mime" = "application/octet-stream" ];
+then
+    mime="$(ext_to_mime "$FN")"
+fi
+
+echo "$mime"

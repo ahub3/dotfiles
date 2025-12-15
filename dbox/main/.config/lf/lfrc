@@ -1,11 +1,11 @@
 # interpreter for shell commands (needs to be POSIX compatible)
 set shell sh
 
-set color256 true
+#set color256 true
 set icons true
 set ignorecase true
 set drawbox true
-set sixel true
+#set sixel true
 
 
 set previewer ~/.config/lf/pv.sh
@@ -48,12 +48,14 @@ map <a-c> clear
 # use either file extensions and/or mime types here. Below uses an editor for
 # text files and a file opener for the rest.
 cmd open ${{
-    case $(file --mime-type $f -b) in
+    mime="$(get_mime "$f")"
+
+    case $mime in
         text/*) $EDITOR $fx;;
         audio/*) mpv --input-ipc-server=/tmp/mpvsoc$(date +%%s) $f ;;
-        application/pdf) setsid zathura $fx >/dev/null 2>&1 & ;;
-        application/zip) setsid unzip -l $f | less;;
-        application/rar) setsid unrar l $f | less;;
+        application/pdf) setsid mangaterm -f $f;;
+        application/zip) setsid mangaterm -f $f;;
+        application/rar) setsid mangaterm -f $f;;
         image/gif)  setsid mpv $f --loop=inf ;;
         image/jpeg) setsid imv $f ;;
         image/png) setsid imv $f ;;
@@ -82,7 +84,7 @@ cmd delete ${{
     printf "$fx\n"
     printf "delete?[y/n]"
     read ans
-    [ $ans = "y" ] && srm -rf $fx
+    [ $ans = "y" ] && rm -rf $fx
 }}
 
 # use '<backspace2>' key for either 'trash' or 'delete' command

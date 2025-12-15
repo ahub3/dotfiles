@@ -25,5 +25,5 @@ cp "$SRC"/.zshenv "$DEST"/.zshenv
 mkdir -p "$DEST"/.local/share/
 mkdir -p "$DEST"/.config/
 #Fonts
-cp -r "$SRC"/.local/share/fonts/ "$DEST"/.local/share/
-cp -r "$SRC"/.config/fontconfig/ "$DEST"/.config/
+#cp -r "$SRC"/.local/share/fonts/ "$DEST"/.local/share/
+#cp -r "$SRC"/.config/fontconfig/ "$DEST"/.config/

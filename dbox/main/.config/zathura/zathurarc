@@ -1,6 +1,7 @@
-set statusbar-h-padding 50
-set statusbar-v-padding 0
-set page-padding 10 
+#set statusbar-h-padding 50
+#set statusbar-v-padding 0
+#set page-padding 10 
+set adjust-open "width"
 
 map i recolor
 

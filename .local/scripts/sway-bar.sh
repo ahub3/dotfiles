@@ -89,6 +89,12 @@ weather() {
 	if ! [ -f ~/.cache/wttr ]; then
 		sh ~/.local/scripts/update-weather.sh
 	fi
+
+  if  ! [ "$(date | cut -d' ' -f1-3)" = "$(tail -n1 ~/.cache/wttr_update | cut -d' ' -f1-3)" ]; then
+		sh ~/.local/scripts/update-weather.sh
+  fi
+
+
 	icon="$(cat ~/.cache/wttr)"
 
 	printf "%s\n" "$icon"

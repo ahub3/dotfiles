@@ -1,15 +1,44 @@
-#!/bin/sh
+#!/usr/bin/env bash
+CONFIGDIR="$HOME/.config/mangaterm"
+CACHEDIR="/tmp/mangaterm"
+DATADIR="$HOME/.local/share/mangaterm"
 
-#using PID for dirname in case multiple instances are opened they do not interfere
-CACHEDIR="$HOME/.cache/mangaterm"
-TMPDIR="$CACHEDIR/$$"
+CONFIG_FILE="$CONFIGDIR/config"
+SAVEFILE="$DATADIR/save.json"
 
-# read_char var
-# from: https://stackoverflow.com/a/30022297
-read_char() {
-    stty -icanon -echo
-    eval "$1=\$(dd bs=1 count=1 2>/dev/null)"
-    stty icanon echo
+#centers image on 1080p display, not sure why vscale needs to be 0.95
+vscale=0.95 
+hscale=1.0
+
+source_config() {
+    # sourcing file here, rather than at the start of the file
+    # allows you to overwrite functions defined in this script in the config file 
+    [ -f "$CONFIG_FILE" ] && source "$CONFIG_FILE"
+
+    [[ -v restore ]] && RESTORE=true 
+
+    #rerun in case vscale/hscale is set in config
+    get_term_size
+
+    #using PID for dirname so in the case that multiple instances are opened they do not interfere
+    TMPDIR="$CACHEDIR/$$"
+}
+
+get_term_size() {
+    COLUMNS=$(tput cols)
+    LINES=$(tput lines)
+    COLS=$( echo "scale=0; $COLUMNS * $vscale / 1" | bc)
+    #COLS=$COLUMNS
+
+    ROWS=$( echo "scale=0; $LINES * $hscale / 1" | bc)
+    ROWS=$((ROWS - 7))
+    #((max_items=LINES-3))
+}
+
+reset_cursor() {
+    # Only clear the scrolling window (dir item list).
+    # '\e[%sH':    Move cursor to bottom of scroll area.
+    printf '\e[%sH' "$((LINES))"
 }
 
 help() {
@@ -27,82 +56,278 @@ help() {
     exit
 }
 
-disp() {
-    FILE="$DIR"/"$(echo "$FILES" | head -n "$1" | tail -n 1)" 
-    clear
-    [ -f "$FILE" ] && chafa -C on "$FILE"
+# extract archive to temp directory and setup in the file structure for this 
+# script. 
+# $1 -> file to open, should be assumed to be in the current directory
+setup_file() {
+    mkdir $TMPDIR
 
-    printf "%s" "$FILE"
+    FN="$1"
+    mime="$(get_mime "$FN")"
+    case "$mime" in
+        inode/directory) cp -r "$FN" "$TMPDIR" > /dev/null;; 
+        application/zip) unzip "$FN" -d "$TMPDIR" > /dev/null;; 
+        application/*rar) 7z x "$FN" -o"$TMPDIR" > /dev/null;;
+        application/gzip) tar xzvf "$FN" --directory="$TMPDIR" > /dev/null;;
+        application/x-7z-compressed)  7z x "$FN" -o"$TMPDIR" > /dev/null;;
+        application/pdf) pdftoppm -jpeg "$FN" "$TMPDIR"/page > /dev/null;;
+        *) help;;
+    esac
+
+    FILES="$(ls "$TMPDIR")"
+    LEN="$(echo "$FILES" | wc -l)"
+
+    if [ "$PAGE" -ge "$LEN" ]; then
+        PAGE=$LEN
+    fi
+}
+
+status_line() {
+    # '\e7':       Save cursor position.
+    #              This is more widely supported than '\e[s'.
+    # '\e[%sH':    Move cursor to bottom of the terminal.
+    # '\e[30;41m': Set foreground and background colors.
+    # '%*s':       Insert enough spaces to fill the screen width.
+    #              This sets the background color to the whole line
+    #              and fixes issues in 'screen' where '\e[K' doesn't work.
+    # '\r':        Move cursor back to column 0 (was at EOL due to above).
+    # '\e[m':      Reset text formatting.
+    # '\e[H\e[K':  Clear line below status_line.
+    # '\e8':       Restore cursor position.
+    #              This is more widely supported than '\e[u'.
+    printf '\e7\e[%sH\e[3%s;4%sm%*s\r%s %s%s\e[m\e[%sH\e[K\e8' \
+           "$((LINES-1))" \
+           "${FFF_COL5:-0}" \
+           "${FFF_COL2:-1}" \
+           "$COLUMNS" "" \
+           "($PAGE/$LEN)" \
+           "[vscale=$vscale,hscale=$hscale]" \
+           " > $FILE" \
+           "$LINES"
+}
+
+reset_terminal() {
+    # Reset the terminal to a useable state (undo all changes).
+    # '\e[?7h':   Re-enable line wrapping.
+    # '\e[?25h':  Unhide the cursor.
+    # '\e[2J':    Clear the terminal.
+    # '\e[;r':    Set the scroll region to its default value.
+    #             Also sets cursor to (0,0).
+    # '\e[?1049l: Restore main screen buffer.
+    printf '\e[?7h\e[?25h\e[2J\e[;r\e[?1049l'
+
+    # Show user input.
+    stty echo
+}
+
+save_page() {
+    ! [ -d "$DATADIR" ] && mkdir "$DATADIR"
+    if ! [ -f "$SAVEFILE" ]; then
+        jq -n --arg file "$FILE" --arg page "$PAGE" '.[$file] = $page' > "$SAVEFILE"
+    else
+        local SAVE_OBJ="$(cat "$SAVEFILE")"
+        echo "$SAVE_OBJ" | jq --arg file "$FILE" --arg page "$PAGE" '.[$file] = $page' > "$SAVEFILE"
+    fi
 }
 
 close() {
-    rm -rf "$TMPDIR"
-    clear
-    exit
+    if [ "$NEED_CLEANUP" ]; then
+        rm -rf "$TMPDIR"
+        rmdir "$TMPDIR"
+        reset_terminal
+        save_page
+    fi
 }
 
-readDir() {
-    DIR="$(echo "$1" | xargs)"
+set_page() {
+    case "$1" in
+        +) 
+            PAGE=$((PAGE + 1))
+            ;;
+        -) 
+            PAGE=$((PAGE - 1))
+            ;;
+        [0-9])
+            PAGE="$1"
+            ;;
+        [0-9][0-9]*)
+            PAGE="$1"
+            ;;
+        *)
+            echo "$FUNCNAME() invalid page: $1"
+            ;;
+    esac
 
-    #if opening an archive that created a subdirectory, open subdirectories until there are multiple files
-    SDIR="$(ls -A "$DIR")"
-    if [ "$(echo "$SDIR" | wc -l)" = "1" ]; then
-        if [ -d "$DIR/$SDIR" ]; then  
-            readDir "$DIR"/"$SDIR" 
-        fi
+    if [ "$PAGE" -ge "$LEN" ]; then
+        PAGE="$LEN"
     fi
 
-    FILES="$(ls "$DIR")"
-    LEN="$(echo "$FILES" | wc -l)"
-
-    disp "1"
-
-    I=1
-    while read_char char; do
-        if [ "$char" = "j" ]; then
-                I=$((I + 1))
-            elif [ "$char" = "k" ]; then
-                I=$((I - 1))
-            elif [ "$char" = "q" ]; then
-                close
-            fi
-
-        if [ "$I" -ge "$LEN" ] || [ "$I" -le "0" ]; then
-            if [ "$I" -ge "$LEN" ]; then
-                I="$LEN"
-            elif [ "$I" -le "0" ]; then
-                I=0
-            fi 
-        fi
-
-        disp "$I" 
-    done
-
-    close
+    if [ "$PAGE" -le "1" ]; then
+        PAGE=1
+    fi
 }
 
-handleFile() {
-    case $(file --mime-type "$1" -b) in
-        inode/directory) readDir "$1" ;; 
-        application/zip) unzip "$1" -d "$TMPDIR" && readDir "$TMPDIR" ;; 
-        application/*rar) 7z x "$1" -o"$TMPDIR" && readDir "$TMPDIR" ;;
-        application/gzip) tar xzvf "$1" --directory="$TMPDIR" && readDir "$TMPDIR" ;;
-        application/x-7z-compressed)  7z x "$1" -o"$TMPDIR" && readDir "$TMPDIR";;
-        application/pdf) pdftoppm -jpeg "$1" "$TMPDIR"/page && readDir "$TMPDIR" ;;
-        *) help ;;
+handle_args() {
+    while [[ $# -gt 0 ]]; do
+        case $1 in
+            -f|--file)
+                FILE="$2"
+                cd "$(dirname "$FILE")" || return 
+                FILE="$(basename "$FILE")"
+                shift 2 # Move past the flag and its value
+                ;;
 
+            -v|--verbose)
+                VERBOSE=true
+                shift # Move past the flag
+                ;;
+
+            -h|--help)
+                help
+                ;;
+
+            -r)
+                RESTORE=true
+                shift
+                ;;
+
+            -s|--scale)
+                vscale=$2
+                get_term_size
+                shift 2
+                ;;
+
+            -*)
+                echo "unknown argument $1, skipping."
+                shift
+                ;;
+            *)
+                #echo "handling non-positional arg as filename"
+                FILE="$1"
+
+                cd "$(dirname "$FILE")" || return 
+                FILE="$(basename "$FILE" | tr -dc '[:print:]')"
+                shift
+                ;;
+        esac
+    done
+}
+
+restore_page() {
+    val="$(jq -r --arg fn "$FILE" '.[$fn]' "$SAVEFILE" | tr -cd '0-9')"
+    set_page "$val"
+}
+
+read_keys() {
+    case "$1" in
+        j|B)
+            set_page +
+            redraw 
+            ;;
+        k|A)
+            set_page -
+            redraw
+            ;;
+        g)
+            set_page 1
+            redraw
+            ;;
+        G)
+            set_page "$LEN"
+            redraw
+            ;;
+        r) 
+            get_term_size
+            redraw
+            ;;
+        =)
+            hscale=$( echo "scale=2; ($hscale + 0.05) / 1" | bc)
+            get_term_size
+            redraw
+            ;;
+        +)
+            vscale=$( echo "scale=2; ($vscale + 0.05) / 1" | bc)
+            get_term_size
+            redraw
+            ;;
+        
+        -)
+            hscale=$( echo "scale=2; ($hscale - 0.05) / 1" | bc)
+            get_term_size
+            redraw
+            ;;
+        _)
+            vscale=$( echo "scale=2; ($vscale - 0.05) / 1" | bc)
+            get_term_size
+            redraw
+            ;;
+        :)
+            printf "go to: "
+            read input
+            set_page "$input"
+            redraw
+            ;;
+
+        q)
+            exit
+            ;;
+        *)
+            ;;
     esac
 }
 
-trap 'close' 2
-trap 'close' 15 
+display_func() {
+    chafa -f sixel --view-size="$2"x"$3" --polite on --align center --bg black -O 0 "$1"
+}
 
-[ "$1" = "--help" ] && help
+redraw() {
+    DFILE="$TMPDIR"/"$(echo "$FILES" | head -n "$PAGE" | tail -n 1)"
+    clear
+    display_func "$DFILE" "$COLS" "$ROWS"
+    
+    reset_cursor
+    status_line
+}
 
-mkdir -p "$TMPDIR"
+main() {
+    ERR_MSG=""
+    NEED_CLEANUP="" #set to anything to signal to cleanup() to run filesystem+terminal cleanup functions
+    PAGE=1
+    CURRENT_DIR="$PWD"
 
-if [ "$(echo "$1" | cut -c1-1)" = "-" ]; then
-   foot -e mangaterm "$2" 2>/dev/null > /dev/null
-fi
+    # bash 5 and some versions of bash 4 don't allow SIGWINCH to interrupt
+    # a 'read' command and instead wait for it to complete. In this case it
+    # causes the window to not redraw on resize until the user has pressed
+    # a key (causing the read to finish). This sets a read timeout on the
+    # affected versions of bash.
+    # NOTE: This shouldn't affect idle performance as the loop doesn't do
+    # anything until a key is pressed.
+    # SEE: https://github.com/dylanaraps/fff/issues/48
+    ((BASH_VERSINFO[0] > 3)) && read_flags=(-t 0.1)
 
-handleFile "$1"
+
+    trap 'close EXIT' EXIT
+    trap 'get_term_size; redraw' WINCH
+
+    get_term_size 
+
+    handle_args "$@"
+    source_config
+
+    setup_file "$FILE"
+    cd "$CURRENT_DIR" || exit 
+    NEED_CLEANUP="TRUE"
+
+    [[ -v RESTORE ]] && restore_page
+
+    redraw
+
+    for ((;;)); {
+        read "${read_flags[@]}" -srn 1 && read_keys "$REPLY"
+
+        # Exit if there is no longer a terminal attached.
+        [[ -t 1 ]] || exit 1
+    }
+}
+
+main "$@"

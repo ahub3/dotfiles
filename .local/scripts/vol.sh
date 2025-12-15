@@ -24,6 +24,9 @@ inc() {
     #pamixer -i "$PERC" && refbar
     wpctl set-volume @DEFAULT_AUDIO_SINK@ "$(echo "$(get) + $PERC" | bc)" && refbar
 
+    #play sound when volume changed
+    paplay /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga
+
     display
 }
 
@@ -33,6 +36,10 @@ dec() {
     #amixer sset Master 1%-  && refbar 
     #pamixer -d "$PERC" && refbar
     wpctl set-volume @DEFAULT_AUDIO_SINK@ "$(echo "$(get) - $PERC" | bc)" && refbar
+
+    #play sound when volume changed
+    paplay /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga
+
 
     display
 }
