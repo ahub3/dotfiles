@@ -31,7 +31,6 @@ export XCURSOR_SIZE=32
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.local/scripts:$PATH"
 export PATH="/var/lib/flatpak/exports/bin:$PATH"
-
 export EDITOR=nvim
 
 export LESSHISTFILE="-"
