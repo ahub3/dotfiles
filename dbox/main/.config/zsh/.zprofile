@@ -25,6 +25,9 @@ export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME"/npm/npmrc
 export GHCUP_USE_XDG_DIRS=true
 export STACK_ROOT="$XDG_DATA_HOME"/stack
 
+export RENPY_PATH_TO_SAVES="$XDG_DATA_HOME/renpy"
+export RENPY_MULTIPERSISTENT="$XDG_DATA_HOME/renpy_shared"
+
 #create dirs that may not exist
 ! [ -f "$HISTFILE" ] && mkdir "$HOME"/.cache/ && touch "$HISTFILE"
 ! [ -d "$GNUPGHOME" ] && mkdir -p $GNUPGHOME
@@ -43,6 +46,7 @@ export SDL_VIDEODRIVER=wayland
 #theming
 export GTK_THEME=Adwaita:dark
 export XCURSOR_THEME=Adwaita
+export XCURSOR_SIZE=24
 
 #add to path
 export PATH="$PATH:$HOME/.local/bin"
@@ -63,13 +67,13 @@ export MANPAGER=less
 #export XDG_CURRENT_DESKTOP="sway"
 
 #sfeed vars
-export SFEED_PLUMBER="$BROWSER"
+#export SFEED_PLUMBER="$BROWSER"
 export SFEED_URL_FILE="$HOME/.local/share/sfeed/read"
 
 #set programs
 export EDITOR=nvim
 #export BROWSER="browser.sh"
-export BROWSER="com.brave.Browser"
+export BROWSER="flatpak run com.brave.Browser"
 
 
 #lf icons

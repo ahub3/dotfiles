@@ -38,7 +38,7 @@ get_term_size() {
 reset_cursor() {
     # Only clear the scrolling window (dir item list).
     # '\e[%sH':    Move cursor to bottom of scroll area.
-    printf '\e[%sH' "$((LINES))"
+    printf '\e[%sH' "$((LINES + 25))"
 }
 
 help() {
@@ -60,7 +60,7 @@ help() {
 # script. 
 # $1 -> file to open, should be assumed to be in the current directory
 setup_file() {
-    mkdir $TMPDIR
+    mkdir -p $TMPDIR
 
     FN="$1"
     mime="$(get_mime "$FN")"
@@ -121,12 +121,16 @@ reset_terminal() {
 }
 
 save_page() {
-    ! [ -d "$DATADIR" ] && mkdir "$DATADIR"
-    if ! [ -f "$SAVEFILE" ]; then
-        jq -n --arg file "$FILE" --arg page "$PAGE" '.[$file] = $page' > "$SAVEFILE"
-    else
-        local SAVE_OBJ="$(cat "$SAVEFILE")"
-        echo "$SAVE_OBJ" | jq --arg file "$FILE" --arg page "$PAGE" '.[$file] = $page' > "$SAVEFILE"
+    ! [ -d "$DATADIR" ] && mkdir -p "$DATADIR"
+
+    if command -v jq >/dev/null 2>&1
+    then
+        if ! [ -f "$SAVEFILE" ]; then
+            jq -n --arg file "$FILE" --arg page "$PAGE" '.[$file] = $page' > "$SAVEFILE"
+        else
+            local SAVE_OBJ="$(cat "$SAVEFILE")"
+            echo "$SAVE_OBJ" | jq --arg file "$FILE" --arg page "$PAGE" '.[$file] = $page' > "$SAVEFILE"
+        fi
     fi
 }
 
@@ -214,8 +218,10 @@ handle_args() {
 }
 
 restore_page() {
-    val="$(jq -r --arg fn "$FILE" '.[$fn]' "$SAVEFILE" | tr -cd '0-9')"
-    set_page "$val"
+    if [ -f "$SAVEFILE" ]; then
+        val="$(jq -r --arg fn "$FILE" '.[$fn]' "$SAVEFILE" | tr -cd '0-9')"
+        set_page "$val"
+    fi
 }
 
 read_keys() {

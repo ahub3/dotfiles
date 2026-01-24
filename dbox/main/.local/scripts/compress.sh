@@ -47,7 +47,7 @@ compress() {
 extract() {
     FILE="$@"
     echo "compress.sh - extracting: [$FILE]"
-
+    EXTRACT_DIR="$(basename $FILE | sed 's/\.[^.]*$//')"
     case "$FILE" in 
         *.rar) 
             unrar x "$FILE"
@@ -55,7 +55,7 @@ extract() {
             ;;
 
         *.tar.gz)
-            EXTRACT_DIR="$(basename $FILE .tar.gz)"
+            EXTRACT_DIR="$(basename $EXTRACT_DIR .tar)"
             if ! [ -d "$EXTRACT_DIR" ]; then
                 mkdir "$EXTRACT_DIR"
                 tar xvzf "$FILE" -C "$EXTRACT_DIR"
@@ -65,8 +65,14 @@ extract() {
             fi
             ;;
         *) 
-            7z x "$FILE"
-            exit 0
+            if ! [ -d "$EXTRACT_DIR" ]; then
+                mkdir "$EXTRACT_DIR"
+                7z x "$FILE" -o"$EXTRACT_DIR"
+                exit 0
+            else 
+                echo "ERROR: compress.sh - $EXTRACT_DIR already exists, skipping extraction."
+                exit 1
+            fi
             ;;
     esac
     exit 0

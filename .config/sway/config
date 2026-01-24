@@ -77,7 +77,7 @@ font pango:mono 12
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
 
-mouse_warping container
+#mouse_warping container
 
 xwayland enable
 
@@ -146,7 +146,7 @@ xwayland enable
     bindsym $mod+7 workspace number 7
     bindsym $mod+8 workspace number 8
     bindsym $mod+9 workspace number 9
-    bindsym $mod+0 workspace number 10
+    #bindsym $mod+0 workspace number 10
     # Move focused container to workspace
     bindsym $mod+Shift+1 move container to workspace number 1
     bindsym $mod+Shift+2 move container to workspace number 2
@@ -157,7 +157,7 @@ xwayland enable
     bindsym $mod+Shift+7 move container to workspace number 7
     bindsym $mod+Shift+8 move container to workspace number 8
     bindsym $mod+Shift+9 move container to workspace number 9
-    bindsym $mod+Shift+0 move container to workspace number 10
+    #bindsym $mod+Shift+0 move container to workspace number 10
     # Note: workspaces can have any name you want, not just numbers.
     # We just use 1-10 as the default.
 #
@@ -330,6 +330,7 @@ exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DE
 exec_always kanshi
 
 exec_always export XDG_CURRENT_DESKTOP="sway"
+exec_always export XCURSOR_SIZE=32
 
 #do any computer specific setup here, monitor configs, etc.
 exec_always ~/.init.sh
