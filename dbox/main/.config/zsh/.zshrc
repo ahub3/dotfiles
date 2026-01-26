@@ -144,5 +144,3 @@ source $ZSH/oh-my-zsh.sh
 [ -f ~/.zprofile.local ] && source ~/.zprofile.local
 
 #cd "$HOME"
-
-. "$HOME/.local/share/../bin/env"

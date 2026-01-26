@@ -283,11 +283,11 @@ client.background       $base07
 #GTK theme
 set $gnome_schema "org.gnome.desktop.interface"
 exec_always {
-    #gsettings set $gnome_schema gtk-theme 'Nordic-standard-buttons'
-    #gsettings set $gnome_schema icon-theme 'ePapirus-Dark'
+    gsettings set $gnome_schema gtk-theme 'Adwaita-dark'
+    gsettings set $gnome_schema icon-theme 'Papirus'
     gsettings set $gnome_schema cursor-theme 'Adwaita'
     gsettings set $gnome_schema font-name 'Noto Sans'
-    gsettings set $gnome_schema gtk-theme 'Adwaita'
+    #gsettings set $gnome_schema gtk-theme 'Adwaita'
 }
 
 
