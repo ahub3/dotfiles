@@ -150,10 +150,12 @@ riverctl focus-follows-cursor normal
 riverctl spawn ~/.init.sh
 
 #startup programs
-riverctl spawn waybar
-riverctl spawn ~/.local/scripts/gammastep-init.sh
-riverctl spawn udiskie
-riverctl kanshi
+#riverctl spawn waybar
+riverctl spawn "dms run"
+riverctl spawn "wl-paste --watch cliphist store"
+riverctl spawn "~/.local/scripts/gammastep-init.sh"
+riverctl spawn "udiskie"
+riverctl spawn "kanshi"
 
 # Set background and border color
 riverctl background-color 0x002b36

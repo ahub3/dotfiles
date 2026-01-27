@@ -41,6 +41,7 @@ export XDG_CACHE_HOME="$HOME/.cache"
 export SDL_VIDEODRIVER=wayland
 export RENPY_PATH_TO_SAVES="$XDG_DATA_HOME/renpy"
 export RENPY_MULTIPERSISTENT="$XDG_DATA_HOME/renpy_shared"
+export QT_QPA_PLATFORM=wayland
 
 export BROWSER="flatpak run com.brave.Browser"
 
