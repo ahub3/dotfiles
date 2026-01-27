@@ -1,7 +1,13 @@
+# Clone of cat(1) with syntax highlighting and Git integration
+brew "bat"
 # Resource monitor. C++ version and continuation of bashtop and bpytop
 brew "btop"
+# Versatile and fast Unicode/ASCII/ANSI graphics renderer
+brew "chafa"
 # Container Signing
 brew "cosign"
+# Terminal file manager
+brew "lf"
 # Music Player Daemon
 brew "mpd", restart_service: :changed
 # Media player based on MPlayer and mplayer2
@@ -10,6 +16,8 @@ brew "mpv"
 brew "neovim"
 # Open source continuous file synchronization application
 brew "syncthing", restart_service: :changed
+# Command-line interface to the freedesktop.org trashcan
+brew "trash-cli"
 flatpak "com.brave.Browser"
 flatpak "com.discordapp.Discord"
 flatpak "com.georgefb.mangareader"
