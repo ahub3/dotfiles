@@ -88,7 +88,7 @@ xwayland enable
 # Basics:
 #
     # Start a terminal
-    bindsym $mod+Return exec sh ~/.local/scripts/open-terminal.sh main
+    bindsym $mod+Return exec $term 
     bindsym $mod+Shift+Return exec sh ~/.local/scripts/open-terminal.sh 
 
     # Kill focused window
