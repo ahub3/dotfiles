@@ -1,6 +1,13 @@
 #better commands
 alias ls="ls -hN --color=auto --group-directories-first"
 alias wget='wget --hsts-file ~/.config/wget/wget-hsts'
+alias rm='trash-put'
+
+alias config="git --git-dir=$HOME/.cfg --work-tree=$HOME"
+
+#vim
+alias vim="nvim"
+alias vi="nvim"
 
 #command fixes
 alias ssh="TERM=xterm-256color ssh" #fix issues with TERM=foot not being defined by terminfo

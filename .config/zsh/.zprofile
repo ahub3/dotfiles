@@ -46,7 +46,7 @@ export SDL_VIDEODRIVER=wayland
 #theming
 export GTK_THEME=Adwaita:dark
 export XCURSOR_THEME=Adwaita
-export XCURSOR_SIZE=24
+export XCURSOR_SIZE=32
 
 #add to path
 export PATH="$PATH:$HOME/.local/bin"
@@ -62,17 +62,15 @@ export LESSHISTFILE="-"
 #export LESS_TERMCAP_se="$(printf '%b' '[0m')"
 #export LESS_TERMCAP_us="$(printf '%b' '[1;32m')"
 #export LESS_TERMCAP_ue="$(printf '%b' '[0m')"
+export GTK2_RC_FILES="${XDG_CONFIG_HOME:-$HOME/.config}/gtk-2.0/gtkrc-2.0"
+export QT_QPA_PLATFORM=wayland
+
+
 
 export MANPAGER=less
 #export XDG_CURRENT_DESKTOP="sway"
 
-#sfeed vars
-#export SFEED_PLUMBER="$BROWSER"
-export SFEED_URL_FILE="$HOME/.local/share/sfeed/read"
-
 #set programs
-export EDITOR=nvim
-#export BROWSER="browser.sh"
 export BROWSER="flatpak run com.brave.Browser"
 
 

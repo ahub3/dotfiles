@@ -20,8 +20,8 @@ case "$mime" in
         application/*rar) compress.sh -l "$fn";;
         application/x-7z-compressed) compress.sh -l "$fn";;
         image/*) 
-            chafa -f symbols -s "$W"x"$H" --animate off --polite on -t 1 --bg black "$1"
-            #chafa -f sixel -s "$W"x"$H" --animate off --polite on -t 1 --bg black "$1"
+            #chafa -f symbols -s "$W"x"$H" --animate off --polite on -t 1 --bg black "$1"
+            chafa -f sixel -s "$W"x"$H" --animate off --polite on "$1"
             ;;
         video/*) ffmpegthumbnailer -s 0 -i "$fn" -c jpeg -o - | chafa -f sixel -s "$W"x"$H" --animate off --polite on -;; 
         application/pdf) pdftotext "$fn" -;;
