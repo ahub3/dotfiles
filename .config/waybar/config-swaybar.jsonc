@@ -24,7 +24,8 @@
     "custom/my-script-module": {
         "format": "{}",
         "exec": "~/.local/scripts/sway-bar.sh",
-        "interval": 30
+        "interval": 30,
+        "signal": 3
     }
   }
 ]
