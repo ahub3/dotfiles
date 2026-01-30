@@ -46,7 +46,7 @@ export SDL_VIDEODRIVER=wayland
 #theming
 export GTK_THEME=Adwaita:dark
 export XCURSOR_THEME=Adwaita
-export XCURSOR_SIZE=22
+export XCURSOR_SIZE=24
 
 #add to path
 export PATH="$PATH:$HOME/.local/bin"

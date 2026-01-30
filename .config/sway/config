@@ -327,8 +327,7 @@ exec udiskie
 exec autotiling
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 
-exec_always pkill kanshi;kanshi
-
+exec_always sh ~/.local/scripts/kanshi-init.sh 
 exec_always export XDG_CURRENT_DESKTOP="sway"
 #exec_always export XCURSOR_SIZE=32
 
