@@ -1,53 +1,60 @@
 /*from: https://www.reddit.com/r/swaywm/comments/sl3mtd/comment/myhvsgk/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button*/
+
+@import "base16-onedark.css";
+
 * {
   border: none;
   border-radius: 0;
   font-family: monospace;
-  font-size: 14px;
+  font-size: 16px;
   min-height: 19px;
   padding: 0;
   margin: 0;
 }
 window#waybar {
-  background: #323232;
+  background: @base00;/*#323232;*/ /*base00*/
 }
 #workspaces {
   margin: 0;
   padding: 0;
 }
+/*inactive_workspace*/
 #workspaces button {
-  min-width: 19px;
-  background: #03070A;
-  color: #5C5C5C;
+  min-width: 20px;
+  background: @base01;/*#03070A;*/ /*base01*/
+  color: @base05;/* #5C5C5C;*/ /*non focused text color, base05?*/
   padding: 1px;
   padding-left: 0px;
   padding-right: 0px;
   margin: 0;
   border-style: solid;
   border-width: 1px;
-  border-color: #03070A;
+  border-color: @base03;/*#03070A;*/
 }
+/*active_workspace*/
 #workspaces button.visible {
-  background: #5F676A;
-  color: #FFFFFF;
-  border-color: #333333;
+  background: @base03;/*#5F676A;*/ /*current ws, but not on active monitor, base01*/ 
+  color: @base00;/*#FFFFFF;*/
+  border-color: @base05;/*#333333*/ /*base03*/;
 }
+/*focused_workspace*/
 #workspaces button.focused {
-  background: #285577;
-  color: #FFFFFF;
-  border-color: #4C7899;
+  background: @base0D;/*#285577;*/ /*base0D*/
+  color: @base00; /*#FFFFFF*/ /*focused font color, base00*/
+  border-color: @base05;/*#4C7899*/ /*base05*/;
 }
+/*urgent_workspace*/
 #workspaces button.urgent {
-  background: #900000;
-  color: #FFFFFF;
-  border-color: #2F343A;
+  background: @base08;/*#900000;*/ /*base08*/
+  color: @base00; /*#FFFFFF*/ /*urgent font color, base00*/
+  border-color: @base08;/*#2F343A;*/ /*base08? based on sway config*/
 }
 #mode {
-  background: #900000;
-  color: #FFFFFF;
+  background: @base08;/*#900000;*/ /*base08*/
+  color: @base00;/*#FFFFFF;*/
   padding: 0 8px;
   margin: 0 4px;
   border-style: solid;
   border-width: 1px;
-  border-color: #2F343A;
+  border-color: @base08;/*#2F343A;*/ /*base08? based on sway config*/
 }
