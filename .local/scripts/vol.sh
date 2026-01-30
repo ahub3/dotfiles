@@ -25,7 +25,7 @@ inc() {
     wpctl set-volume @DEFAULT_AUDIO_SINK@ "$(echo "$(get) + $PERC" | bc)" && refbar
 
     #play sound when volume changed
-    paplay /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga
+    pw-play /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga
 
     display
 }
@@ -38,7 +38,7 @@ dec() {
     wpctl set-volume @DEFAULT_AUDIO_SINK@ "$(echo "$(get) - $PERC" | bc)" && refbar
 
     #play sound when volume changed
-    paplay /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga
+    pw-play /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga
 
 
     display

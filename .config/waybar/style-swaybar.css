@@ -1,0 +1,53 @@
+/*from: https://www.reddit.com/r/swaywm/comments/sl3mtd/comment/myhvsgk/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button*/
+* {
+  border: none;
+  border-radius: 0;
+  font-family: monospace;
+  font-size: 14px;
+  min-height: 19px;
+  padding: 0;
+  margin: 0;
+}
+window#waybar {
+  background: #323232;
+}
+#workspaces {
+  margin: 0;
+  padding: 0;
+}
+#workspaces button {
+  min-width: 19px;
+  background: #03070A;
+  color: #5C5C5C;
+  padding: 1px;
+  padding-left: 0px;
+  padding-right: 0px;
+  margin: 0;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #03070A;
+}
+#workspaces button.visible {
+  background: #5F676A;
+  color: #FFFFFF;
+  border-color: #333333;
+}
+#workspaces button.focused {
+  background: #285577;
+  color: #FFFFFF;
+  border-color: #4C7899;
+}
+#workspaces button.urgent {
+  background: #900000;
+  color: #FFFFFF;
+  border-color: #2F343A;
+}
+#mode {
+  background: #900000;
+  color: #FFFFFF;
+  padding: 0 8px;
+  margin: 0 4px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #2F343A;
+}

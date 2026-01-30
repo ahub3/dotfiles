@@ -1,0 +1,30 @@
+//from: https://www.reddit.com/r/swaywm/comments/sl3mtd/comment/myhvsgk/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button 
+[
+  {
+    "ipc": true,
+    "layer": "bottom",
+    "position": "top",
+    "spacing": 15,
+    "modules-left": [
+      "sway/workspaces",
+      "sway/mode"
+    ],
+    "modules-right": [
+    "custom/my-script-module"
+    ],
+    "sway/mode": {
+      "tooltip": false
+    },
+    "sway/workspaces": {
+      "disable-scroll-wraparound": true,
+      "enable-bar-scroll": true,
+      "format": "{name}",
+      "reverse-scrolling": true
+    },
+    "custom/my-script-module": {
+        "format": "{}",
+        "exec": "~/.local/scripts/sway-bar.sh",
+        "interval": 30
+    }
+  }
+]
