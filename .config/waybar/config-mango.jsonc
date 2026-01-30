@@ -1,0 +1,37 @@
+//from: https://www.reddit.com/r/swaywm/comments/sl3mtd/comment/myhvsgk/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button 
+
+//signal refresh in custom/ from: https://www.reddit.com/r/linuxquestions/comments/1i2orzp/comment/mxewxjk/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+[
+  {
+    "ipc": true,
+    "layer": "bottom",
+    "position": "top",
+    "spacing": 15,
+    "modules-left": [
+    "ext/workspaces",
+    "dwl/window"
+    ],
+    "modules-right": [
+    "custom/my-script-module"
+    ],
+    "ext/workspaces": {
+    "format": "{icon}",
+    "ignore-hidden": true,
+    "on-click": "activate",
+    "on-click-right": "deactivate",
+    "sort-by-id": true,
+    },
+    "dwl/tags": {
+        "num-tags":9,
+    },
+    "dwl/window": {
+        "format": "[{layout}]{title}"
+    },
+    "custom/my-script-module": {
+        "format": "{}",
+        "exec": "~/.local/scripts/sway-bar.sh",
+        "interval": 30,
+        "signal": 3
+    }
+  }
+]

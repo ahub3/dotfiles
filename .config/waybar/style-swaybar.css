@@ -31,6 +31,13 @@ window#waybar {
   border-width: 1px;
   border-color: @base03;/*#03070A;*/
 }
+/*active workspace (for mangowc)*/
+#workspaces button.active {
+  background: @base0D;/*#285577;*/ /*base0D*/
+  color: @base00; /*#FFFFFF*/ /*focused font color, base00*/
+  border-color: @base05;/*#4C7899*/ /*base05*/;
+}
+
 /*active_workspace*/
 #workspaces button.visible {
   background: @base03;/*#5F676A;*/ /*current ws, but not on active monitor, base01*/ 
