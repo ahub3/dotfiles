@@ -62,7 +62,7 @@ cmd open ${{
         image/*) setsid imv $f ;;
         video/*) setsid mpv $f --loop=inf ;;
         application/json) $EDITOR $f;;
-        application/vnd.microsoft.portable-executable) distrobox-host-exec flatpak run com.usebottles.bottles $f;; 
+        application/vnd.microsoft.portable-executable) faugus-launcher $f;; 
         *) for f in $fx; do setsid $OPENER $f > /dev/null 2> /dev/null & done;;
     esac
 }}

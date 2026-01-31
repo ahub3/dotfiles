@@ -1,5 +1,4 @@
 # Created with command: brew bundle dump --describe
-#
 # Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
 # Resource monitor. C++ version and continuation of bashtop and bpytop
@@ -14,8 +13,12 @@ brew "lf"
 brew "mpd", restart_service: :changed
 # Media player based on MPlayer and mplayer2
 brew "mpv"
+# Ncurses-based client for the Music Player Daemon
+brew "ncmpcpp"
 # Ambitious Vim-fork focused on extensibility and agility
 brew "neovim"
+# Rsync for cloud storage
+brew "rclone"
 # Open source continuous file synchronization application
 brew "syncthing", restart_service: :changed
 # Command-line interface to the freedesktop.org trashcan
@@ -31,7 +34,6 @@ flatpak "com.ultimaker.cura"
 flatpak "com.usebottles.bottles"
 flatpak "com.vysp3r.ProtonPlus"
 flatpak "io.exodus.Exodus"
-flatpak "io.github.Faugus.faugus-launcher"
 flatpak "io.github.flattool.Ignition"
 flatpak "io.github.flattool.Warehouse"
 flatpak "io.github.kolunmi.Bazaar"

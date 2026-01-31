@@ -5,11 +5,13 @@ PERC="0.05"
 refbar() {
     if [ "$(pgrep swaybar)" ]; then
         pkill sleep -P "$(cat ~/.cache/statusbar_pid )"
+    else 
+        if [ "(pgrep waybar)" ]; then
+            kill -n 37 $(pgrep waybar)
+        fi
     fi
 
-    if [ "(pgrep waybar)" ]; then
-        kill -n 37 $(pgrep waybar)
-    fi
+    
 }
 
 display() {

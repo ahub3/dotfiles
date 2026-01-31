@@ -21,6 +21,7 @@ export ANDROID_SDK_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/android"
 export MBSYNCRC="${XDG_CONFIG_HOME:-$HOME/.config}/mbsync/config"
 export ELECTRUMDIR="${XDG_DATA_HOME:-$HOME/.local/share}/electrum"
 export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME"/npm/npmrc
+export CUDA_CACHE_PATH="$XDG_CACHE_HOME"/nv
 
 export GHCUP_USE_XDG_DIRS=true
 export STACK_ROOT="$XDG_DATA_HOME"/stack
@@ -42,6 +43,7 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 
 #make SDL applications use wayland
 export SDL_VIDEODRIVER=wayland
+export SDL_VIDEO_DRIVER=wayland
 
 #theming
 export GTK_THEME=Adwaita:dark
