@@ -153,7 +153,7 @@ riverctl spawn ~/.init.sh
 #riverctl spawn waybar
 riverctl spawn "dms run"
 riverctl spawn "wl-paste --watch cliphist store"
-riverctl spawn "~/.local/scripts/gammastep-init.sh"
+riverctl spawn "~/.local/scripts/redshift.sh"
 riverctl spawn "udiskie"
 riverctl spawn "kanshi"
 

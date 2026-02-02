@@ -323,7 +323,7 @@ for_window [class=".*"] inhibit_idle fullscreen
 for_window [app_id=".*"] inhibit_idle fullscreen
 
 #autostart programs
-exec sh ~/.local/scripts/gammastep-init.sh
+exec sh ~/.local/scripts/redshift.sh
 exec udiskie
 exec autotiling
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
