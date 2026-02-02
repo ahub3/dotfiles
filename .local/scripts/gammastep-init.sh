@@ -20,4 +20,8 @@ if [ "$(cat "$JSFN".tmp | wc -l)" -gt 4 ]; then
 
 fi
 
-gammastep -l "$( cat "$FN" | cut -d' ' -f1)":"$( cat "$FN" | cut -d' ' -f2)" -m wayland
+LAT="$( cat "$FN" | cut -d' ' -f1)"
+LON="$( cat "$FN" | cut -d' ' -f2)"
+
+#gammastep -l "$LAT":"$LON" -m wayland
+wlsunset -t 3000 -l "$LAT" -L "$LON" 
