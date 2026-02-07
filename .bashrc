@@ -48,3 +48,5 @@ export BROWSER="flatpak run com.brave.Browser"
 alias config="git --git-dir=$HOME/.cfg --work-tree=$HOME"
 alias vim="nvim"
 alias vi="nvim"
+
+#zsh

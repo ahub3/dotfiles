@@ -234,6 +234,7 @@ bindsym $mod+shift+s exec ~/.local/scripts/ss.sh -s
 bindsym ctrl+alt+delete exec waylogout
 bindsym XF86Tools  exec sh ~/.local/scripts/open-terminal.sh main
 bindsym XF86Launch5  exec sh ~/.local/scripts/open-terminal.sh ai-cuda 
+bindsym XF86Launch6  exec sh ~/.local/scripts/open-terminal.sh gamedev 
 bindsym $mod+shift+p exec systemctl suspend
 bindsym $mod+shift+w exec sh ~/.local/scripts/update-weather.sh
 
