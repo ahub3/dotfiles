@@ -1,4 +1,4 @@
-# Created with command: brew bundle dump --describe
+# created with command: brew bundle dump --describe
 # Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
 # Resource monitor. C++ version and continuation of bashtop and bpytop
@@ -7,6 +7,8 @@ brew "btop"
 brew "chafa"
 # Container Signing
 brew "cosign"
+# Improved top (interactive process viewer)
+brew "htop"
 # Terminal file manager
 brew "lf"
 # Music Player Daemon
@@ -17,10 +19,14 @@ brew "mpv"
 brew "ncmpcpp"
 # Ambitious Vim-fork focused on extensibility and agility
 brew "neovim"
+# Interactive GPU process monitor
+brew "nvtop"
 # Rsync for cloud storage
 brew "rclone"
 # Open source continuous file synchronization application
 brew "syncthing", restart_service: :changed
+# Official tldr client written in Rust
+brew "tlrc"
 # Command-line interface to the freedesktop.org trashcan
 brew "trash-cli"
 flatpak "com.brave.Browser"
@@ -32,6 +38,7 @@ flatpak "com.ranfdev.DistroShelf"
 flatpak "com.transmissionbt.Transmission"
 flatpak "com.ultimaker.cura"
 flatpak "com.usebottles.bottles"
+flatpak "com.vivaldi.Vivaldi"
 flatpak "com.vysp3r.ProtonPlus"
 flatpak "io.exodus.Exodus"
 flatpak "io.github.flattool.Ignition"
