@@ -1,12 +1,13 @@
 #!/bin/sh
-#
-
 
 fn="$1"
 W="$2"
 H="$3"
-#W=50
-#H=50
+
+imagepv() {
+    #chafa -f symbols -s "$2"x"$3" --animate off --polite on -t 1 --bg black "$1"
+    chafa -f sixel -s "$2"x"$3" --animate off --polite on --bg 282c34  -t 1 -c full "$1"
+}
 
 
 #echo "W=$W H=$H" >> ~/pv.log
@@ -19,11 +20,8 @@ case "$mime" in
         application/zip) compress.sh -l "$fn";;
         application/*rar) compress.sh -l "$fn";;
         application/x-7z-compressed) compress.sh -l "$fn";;
-        image/*) 
-            #chafa -f symbols -s "$W"x"$H" --animate off --polite on -t 1 --bg black "$1"
-            chafa -f sixel -s "$W"x"$H" --animate off --polite on --bg 282c34  -t 1 -c full "$1"
-            ;;
-        video/*) ffmpegthumbnailer -s 0 -i "$fn" -c jpeg -o - | chafa -f sixel -s "$W"x"$H" --animate off --polite on -;; 
+        image/*) imagepv "$fn" "$W" "$H";;
+        video/*) ffmpegthumbnailer -s 0 -i "$fn" -c jpeg -o - | imagepv - "$2" "$3";; 
         application/pdf) pdftotext "$fn" -;;
         *) bat -f "$fn";; #*) highlight -O ansi "$1" || cat "$1";;
 esac

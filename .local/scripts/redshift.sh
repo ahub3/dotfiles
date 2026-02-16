@@ -24,4 +24,4 @@ LAT="$( cat "$FN" | cut -d' ' -f1)"
 LON="$( cat "$FN" | cut -d' ' -f2)"
 
 #gammastep -l "$LAT":"$LON" -m wayland
-wlsunset -t 3000 -l "$LAT" -L "$LON" 
+wlsunset -g 0.9 -t 3900 -l "$LAT" -L "$LON" 
