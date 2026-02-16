@@ -1,4 +1,4 @@
 profile desk {
-    output "Ancor Communications Inc VE248 DCLMQS000292" enable mode 1920x1080 position 0,0
-    output "Ancor Communications Inc VE248 DCLMQS000288" enable mode 1920x1080 position 1920,0
+    output "Ancor Communications Inc VE248 DCLMQS000288" enable mode 1920x1080 position 0,0
+    output "Samsung Electric Company U32R59x HNAW501161" enable mode 3840x2160@60 position 1920,0 scale 1.25
 }
