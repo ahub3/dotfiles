@@ -1,0 +1,9 @@
+[Unit]
+Description=Sync ~/sync/ with rclone
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/scripts/rclone.sh
+
+[Install]
+WantedBy=default.target
