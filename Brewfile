@@ -1,4 +1,4 @@
-# made with: brew bundle dump --describe
+# created with: brew bundle dump --describe
 # Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
 # Resource monitor. C++ version and continuation of bashtop and bpytop
@@ -7,6 +7,8 @@ brew "btop"
 brew "chafa"
 # Container Signing
 brew "cosign"
+# Like neofetch, but much faster because written mostly in C
+brew "fastfetch"
 # Create thumbnails for your video files
 brew "ffmpegthumbnailer"
 # Improved top (interactive process viewer)
