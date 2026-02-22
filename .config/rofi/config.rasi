@@ -144,6 +144,8 @@ configuration {
       directories-first: true;
       sorting-method:    "name";
   }
+  show-icons: true;
+  icon-theme: "Papirus";
 }
 
 @theme "colorscheme"
