@@ -47,7 +47,7 @@ compress() {
 extract() {
     FILE="$@"
     echo "compress.sh - extracting: [$FILE]"
-    EXTRACT_DIR="$(basename $FILE | sed 's/\.[^.]*$//')"
+    EXTRACT_DIR="$(basename "$FILE" | sed 's/\.[^.]*$//')"
     case "$FILE" in 
         *.rar) 
             unrar x "$FILE"

@@ -34,7 +34,7 @@ ss_sel() {
 }
 
 ss_color_pick() {
-    grim -g "$(slurp -p)" -t ppm - | convert - -format '%[pixel:p{0,0}]' txt:- | "$2" 
+    grim -g "$(slurp -p)" -t ppm - | magick - -format '%[pixel:p{0,0}]' txt:- | "$2" 
 }
 
 help() {

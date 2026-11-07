@@ -27,3 +27,8 @@ fi
 unset rc
 
 [ -f "$HOME"/.config/shell/profile ] && . "$HOME"/.config/shell/profile
+
+#export PS1="\[\e[36m\]\u\[\e[m\]@\[\e[32m\]\h \[\e[34m\]\W\[\e[m\] \$ "
+
+#cd "$HOME"
+eval "$(starship init bash)"
